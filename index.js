@@ -5,6 +5,7 @@ const routerAuth = require('./src/controllers/authController');
 const cors = require('cors'); 
 const path = require('path');
 const authToken = require('./src/middleware/authJwt') 
+require('dotenv').config();
 
 const app = express(); 
 
@@ -12,7 +13,7 @@ app.use(express.urlencoded({extended: false}));
 
 
 // Conectando no Bando de dados local
-mongoose.connect('mongodb://localhost:27017/apiVeiculos');
+mongoose.connect(process.env.DB);
 
 
 app.use('/uploads',express.static(path.join(__dirname,'./uploads')))
@@ -27,6 +28,6 @@ app.use('/auth', routerAuth);
 app.use('/', routerVeiculo); 
 
 
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Api rodando..')
 });
